@@ -1,24 +1,23 @@
 package main
 
 type Region struct {
-	Name     string
-	Parent   *Region
-	Children map[string]*Region
+	Name   string
+	Parent *Region
+	// Children map[string]*Region
 }
 
 var World = &Region{
-	Name:     "World",
-	Parent:   nil,
-	Children: make(map[string]*Region),
+	Name:   "World",
+	Parent: nil,
+	// Children: make(map[string]*Region),
 }
 
 var regionMap = map[string]*Region{}
 
 func NewRegion(name string, parent *Region) *Region {
 	return &Region{
-		Name:     name,
-		Parent:   parent,
-		Children: make(map[string]*Region),
+		Name:   name,
+		Parent: parent,
 	}
 }
 

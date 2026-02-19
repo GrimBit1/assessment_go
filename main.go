@@ -37,42 +37,24 @@ func main() {
 		provinceName := strings.TrimSpace(record[4])
 		countryName := strings.TrimSpace(record[5])
 
-		country, ok := World.Children[countryCode]
-		if !ok {
-			World.Children[countryCode] = NewRegion(countryName, World)
-			country = World.Children[countryCode]
-		}
-
 		// Add it to map for indexing
 		if _, ok := regionMap[countryCode]; !ok {
-			regionMap[countryCode] = country
-		}
-
-		province, ok := country.Children[provinceCode]
-		if !ok {
-			country.Children[provinceCode] = NewRegion(provinceName, country)
-			province = country.Children[provinceCode]
+			regionMap[countryCode] = NewRegion(countryName, World)
 		}
 
 		// Add it to map for indexing
 		if _, ok := regionMap[provinceCode+"-"+countryCode]; !ok {
-			regionMap[provinceCode+"-"+countryCode] = province
-		}
-
-		city, ok := province.Children[cityCode]
-		if !ok {
-			province.Children[cityCode] = NewRegion(cityName, province)
-			city = province.Children[cityCode]
+			regionMap[provinceCode+"-"+countryCode] = NewRegion(provinceName, regionMap[countryCode])
 		}
 
 		// Add it to map for indexing
 		if _, ok := regionMap[cityCode+"-"+provinceCode+"-"+countryCode]; !ok {
-			regionMap[cityCode+"-"+provinceCode+"-"+countryCode] = city
+			regionMap[cityCode+"-"+provinceCode+"-"+countryCode] = NewRegion(cityName, regionMap[provinceCode+"-"+countryCode])
 		}
 
 	}
 
-	if len(World.Children) == 0 {
+	if len(regionMap) == 0 {
 		log.Fatalf("no rows in csv")
 	}
 
@@ -115,7 +97,7 @@ func main() {
 	fmt.Println("Maharashtra:", d2.HasPermission("MH-IN"))
 
 	d3 := NewDistributor("DISTRIBUTOR3", d2)
-	
+
 	// DISTRIBUTOR3 is authorized to distribute only Vadodara, Gujarat, India.
 	if err := d3.AddInclude("VODRA-GJ-IN"); err != nil {
 		fmt.Println("Can't include VODRA-GJ-IN:", err)
