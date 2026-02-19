@@ -25,9 +25,11 @@ func main() {
 			}
 			log.Fatalf("Error reading CSV record: %s", err)
 		}
-
-		// Trim spaces
 		cityCode := strings.TrimSpace(record[0])
+		if cityCode == "City Code" {
+			continue
+		}
+		// Trim spaces
 		provinceCode := strings.TrimSpace(record[1])
 		countryCode := strings.TrimSpace(record[2])
 
@@ -86,7 +88,7 @@ func main() {
 	}
 
 	fmt.Println("\n----- DISTRIBUTOR1 -----")
-	fmt.Println("Chicago:", d1.HasPermission("Chicago"))
+	fmt.Println("Chicago:", d1.HasPermission("CHIAO"))
 	fmt.Println("Chennai:", d1.HasPermission("CENAI-TN-IN"))
 	fmt.Println("Vadodara:", d1.HasPermission("VODRA-GJ-IN"))
 	fmt.Println("Karnataka:", d1.HasPermission("KA-IN"))

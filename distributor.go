@@ -74,10 +74,6 @@ func (d *Distributor) can(region *Region) bool {
 		return d.parent.can(region)
 	}
 
-	if d.parent != nil {
-		return d.parent.can(region)
-	}
-
 	return false
 }
 
