@@ -86,9 +86,13 @@ func main() {
 	if err != nil {
 		fmt.Println("Can't exclude KA-IN:", err)
 	}
+	err = d1.AddExclude("CENAI-TN-IN")
+	if err != nil {
+		fmt.Println("Can't exclude CENAI-TN-IN:", err)
+	}
 
 	fmt.Println("\n----- DISTRIBUTOR1 -----")
-	fmt.Println("Chicago:", d1.HasPermission("CHIAO"))
+	fmt.Println("Chicago:", d1.HasPermission("CHIAO-IL-US"))
 	fmt.Println("Chennai:", d1.HasPermission("CENAI-TN-IN"))
 	fmt.Println("Vadodara:", d1.HasPermission("VODRA-GJ-IN"))
 	fmt.Println("Karnataka:", d1.HasPermission("KA-IN"))
@@ -111,12 +115,14 @@ func main() {
 	fmt.Println("Maharashtra:", d2.HasPermission("MH-IN"))
 
 	d3 := NewDistributor("DISTRIBUTOR3", d2)
-	// Here will get error because in DISTRIBUTOR1 we excluded Karnataka and hubli comes under Karnataka.
-	if err := d3.AddInclude("YELUR-KA-IN"); err != nil {
-		fmt.Println("Can't include YELUR-KA-IN:", err)
+	
+	// DISTRIBUTOR3 is authorized to distribute only Vadodara, Gujarat, India.
+	if err := d3.AddInclude("VODRA-GJ-IN"); err != nil {
+		fmt.Println("Can't include VODRA-GJ-IN:", err)
 	}
 
 	fmt.Println("\n----- DISTRIBUTOR3 -----")
-	fmt.Println("Yellapur:", d3.HasPermission("YELUR,KA,IN"))
+	fmt.Println("Vadodara:", d3.HasPermission("VODRA-GJ-IN"))
+	fmt.Println("Mumbai:", d3.HasPermission("MUBAI-MH-IN"))
 	fmt.Println("India:", d3.HasPermission("IN"))
 }
