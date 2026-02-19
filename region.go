@@ -3,13 +3,11 @@ package main
 type Region struct {
 	Name   string
 	Parent *Region
-	// Children map[string]*Region
 }
 
 var World = &Region{
 	Name:   "World",
 	Parent: nil,
-	// Children: make(map[string]*Region),
 }
 
 var regionMap = map[string]*Region{}
